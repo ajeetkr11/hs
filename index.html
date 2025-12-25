@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy New Year 2026 | With Love</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg1: #0f102e;
+      --bg2: #1b1d4a;
+      --accent: #ff7eb3;
+      --accent2: #ffd166;
+      --text: #ffffff;
+      --muted: #cdd3ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(1200px 800px at 70% 10%, #1b1d4a 0%, #0f102e 60%) fixed;
+      overflow-x: hidden;
+    }
+
+    /* Subtle animated stars background */
+    .stars {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.8) 50%, transparent 51%) repeat,
+        radial-gradient(2px 2px at 70% 40%, rgba(255,255,255,0.6) 50%, transparent 51%) repeat,
+        radial-gradient(1.5px 1.5px at 30% 80%, rgba(255,255,255,0.7) 50%, transparent 51%) repeat;
+      background-size: 200px 200px, 300px 300px, 250px 250px;
+      animation: drift 60s linear infinite;
+      pointer-events: none;
+      opacity: 0.25;
+    }
+    @keyframes drift { to { background-position: 2000px 0, -1500px 0, 1200px 0; } }
+
+    header {
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .typewriter {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      display: inline-block;
+      border-right: 2px solid var(--accent);
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0; /* will expand via JS */
+    }
+
+    .subline {
+      margin-top: 1rem;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted);
+    }
+
+    .love-script {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--accent);
+      margin-top: 0.5rem;
+    }
+
+    /* Controls strip */
+    .controls {
+      margin: 2rem auto 1rem;
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn {
+      background: linear-gradient(135deg, #ff7eb3 0%, #ffd166 100%);
+      color: #1c1230;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 126, 179, 0.25); }
+    .btn.secondary {
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* Fireworks canvas */
+    #fireworks {
+      position: fixed; inset: 0; pointer-events: none;
+    }
+
+    /* Sections */
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      backdrop-filter: blur(6px);
+    }
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.3rem, 3vw, 1.6rem);
+      color: var(--accent2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .quote, .shayari {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #f6f7ff;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* Floating hearts animation */
+    .heart {
+      position: fixed;
+      font-size: 18px;
+      color: #ff7eb3;
+      opacity: 0.9;
+      animation: floatUp 3.2s ease-in forwards;
+      pointer-events: none;
+      text-shadow: 0 2px 6px rgba(255,126,179,0.35);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0.95; }
+      80% { transform: translateY(-140px) scale(1.25); opacity: 0.75; }
+      100% { transform: translateY(-180px) scale(1.4); opacity: 0; }
+    }
+
+    /* Audio element visibility */
+    audio { width: 100%; max-width: 420px; margin: 0.5rem auto; display: block; }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <canvas id="fireworks"></canvas>
+
+  <header>
+    <div class="typewriter" id="headline"></div>
+    <div class="love-script">For you, forever.</div>
+    <p class="subline">Every second with you is my favorite memory. Here’s to a beautiful 2026 together.</p>
+
+    <div class="controls">
+      <button class="btn" id="playMusic">Play music</button>
+      <button class="btn secondary" id="launchFireworks">Celebrate!</button>
+      <button class="btn secondary" id="sendHearts">Send hearts</button>
+    </div>
+
+    <!-- Replace the src with your MP3 filename -->
+    <audio id="bgm" src="newyear.mp3" preload="auto" controls></audio>
+  </header>
+
+  <section>
+    <h2>Shayari for you</h2>
+    <div class="grid">
+      <div class="card shayari">दिलों की धड़कन बनकर तुम, संग मेरे हर लम्हा हो।<br/>नए साल का ये वादा है, अब हर दुआ में तुम ही हो।</div>
+      <div class="card shayari">तेरी हँसी में सजे सपने, तेरे नाम से रोशन रातें।<br/>2026 में बस इतना चाहूँ—तेरे संग हों सारी बातें।</div>
+      <div class="card shayari">चांदनी जैसे तुम नरम, धूप से प्यारी तेरी बात।<br/>नया साल मुबारक, जान—तुमसे ही मेरी हर शुरुआत।</div>
+      <div class="card shayari">तुम हो तो हर मौसम ख़ूबसूरत, तुम हो तो हर पल ख़ास।<br/>इस साल भी बस इतना चाहूँ—तुम्हारा मेरा साथ रहे पास।</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Love quotes</h2>
+    <div class="grid">
+      <div class="card quote">“In your light I learn how to love. In your beauty, how to make poems.” — Rumi</div>
+      <div class="card quote">“You are my today and all of my tomorrows.” — Leo Christopher</div>
+      <div class="card quote">“I saw that you were perfect, and so I loved you. Then I saw that you were not perfect and I loved you even more.” — Angelita Lim</div>
+      <div class="card quote">“Whatever our souls are made of, his and mine are the same.” — Emily Brontë</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>A small promise</h2>
+    <div class="quote">No matter the city lights or midnight skies, I choose you—again and again. Happy New Year 2026, my love.</div>
+  </section>
+
+  <div class="footer-note">Made with love by Ajeet • Bally Jagachha • Happy New Year 2026</div>
+
+  <script>
+    // Typewriter headline
+    const headlineText = "Happy New Year 2026, My Love!";
+    const headlineEl = document.getElementById('headline');
+    let idx = 0;
+    function typeWriter() {
+      if (idx <= headlineText.length) {
+        headlineEl.style.width = idx + "ch";
+        headlineEl.textContent = headlineText.slice(0, idx);
+        idx++;
+        setTimeout(typeWriter, 70);
+      } else {
+        headlineEl.style.borderRight = '2px solid transparent';
+      }
+    }
+    typeWriter();
+
+    // Music play (user gesture required on most browsers)
+    const audio = document.getElementById('bgm');
+    document.getElementById('playMusic').addEventListener('click', async () => {
+      try {
+        await audio.play();
+      } catch (e) {
+        alert('Tap the play button on the audio controls to start the music.');
+      }
+    });
+
+    // Fireworks animation
+    const fw = document.getElementById('fireworks');
+    const ctx = fw.getContext('2d');
+    let particles = [];
+    function resizeCanvas() {
+      fw.width = window.innerWidth;
+      fw.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function random(min, max) { return Math.random() * (max - min) + min; }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x; this.y = y;
+        this.vx = random(-4, 4);
+        this.vy = random(-7, -2);
+        this.alpha = 1;
+        this.size = random(2, 3.5);
+        this.color = color;
+        this.gravity = 0.08;
+        this.fade = random(0.01, 0.03);
+      }
+      step() {
+        this.vy += this.gravity;
+        this.x += this.vx; this.y += this.vy;
+        this.alpha -= this.fade;
+      }
+      draw() {
+        ctx.globalAlpha = Math.max(this.alpha, 0);
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function boom(x, y) {
+      const palette = ['#ff7eb3', '#ffd166', '#7afcff', '#b28dff', '#fff'];
+      const color = palette[Math.floor(Math.random() * palette.length)];
+      for (let i = 0; i < 80; i++) particles.push(new Particle(x, y, color));
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, fw.width, fw.height);
+      particles.forEach(p => { p.step(); p.draw(); });
+      particles = particles.filter(p => p.alpha > 0 && p.y < fw.height + 8);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Launch fireworks on button and intermittently
+    document.getElementById('launchFireworks').addEventListener('click', () => {
+      boom(random(100, fw.width - 100), random(fw.height * 0.2, fw.height * 0.6));
+      boom(random(100, fw.width - 100), random(fw.height * 0.2, fw.height * 0.6));
+    });
+    setInterval(() => {
+      boom(random(80, fw.width - 80), random(fw.height * 0.2, fw.height * 0.6));
+    }, 3500);
+
+    // Floating hearts on demand
+    function spawnHeart(x, y) {
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.textContent = '❤';
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.transform = `translateY(0) scale(${random(0.9, 1.4)})`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3200);
+    }
+    document.getElementById('sendHearts').addEventListener('click', () => {
+      const w = window.innerWidth, h = window.innerHeight;
+      for (let i = 0; i < 12; i++) {
+        spawnHeart(random(w*0.3, w*0.7), random(h*0.4, h*0.7));
+      }
+    });
+
+    // Hearts on click anywhere
+    document.addEventListener('click', (e) => {
+      spawnHeart(e.clientX, e.clientY);
+    });
+  </script>
+</body>
+</html>
